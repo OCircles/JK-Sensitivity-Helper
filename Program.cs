@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JK_Control_Helper
+namespace JK_Sensitivity_Helper
 {
     static class Program
     {

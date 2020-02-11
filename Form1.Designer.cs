@@ -1,4 +1,4 @@
-﻿namespace JK_Control_Helper
+﻿namespace JK_Sensitivity_Helper
 {
     partial class MainForm
     {
@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.button_save = new System.Windows.Forms.Button();
             this.textBox_scroll = new System.Windows.Forms.TextBox();
             this.textBox_mouse_y = new System.Windows.Forms.TextBox();
             this.textBox_mouse_x = new System.Windows.Forms.TextBox();
@@ -42,27 +43,37 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.textBox_profile = new System.Windows.Forms.TextBox();
             this.button_browse = new System.Windows.Forms.Button();
-            this.button_save = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.button_save);
             this.groupBox1.Controls.Add(this.textBox_scroll);
             this.groupBox1.Controls.Add(this.textBox_mouse_y);
             this.groupBox1.Controls.Add(this.textBox_mouse_x);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 132);
+            this.groupBox1.Enabled = false;
+            this.groupBox1.Location = new System.Drawing.Point(12, 75);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(379, 118);
+            this.groupBox1.Size = new System.Drawing.Size(389, 142);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sensitivity Settings";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(97, 116);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(285, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "If an input is grayed out, it\'s because it\'s not bound in-game";
             // 
             // label5
             // 
@@ -74,6 +85,16 @@
             this.label5.Text = "The game can undo your changes,\r\nso when you save, make sure the game\r\nis off or " +
     "you\'re in the profile select menu.\r\n\r\n(Normal min. value is 0.250000)";
             // 
+            // button_save
+            // 
+            this.button_save.Location = new System.Drawing.Point(6, 111);
+            this.button_save.Name = "button_save";
+            this.button_save.Size = new System.Drawing.Size(75, 23);
+            this.button_save.TabIndex = 4;
+            this.button_save.Text = "Save";
+            this.button_save.UseVisualStyleBackColor = true;
+            this.button_save.Click += new System.EventHandler(this.Button_Save_Click);
+            // 
             // textBox_scroll
             // 
             this.textBox_scroll.Location = new System.Drawing.Point(70, 80);
@@ -81,6 +102,8 @@
             this.textBox_scroll.Size = new System.Drawing.Size(100, 20);
             this.textBox_scroll.TabIndex = 5;
             this.textBox_scroll.Text = "0.000000";
+            this.textBox_scroll.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Input_Keydown);
+            this.textBox_scroll.Leave += new System.EventHandler(this.TextBox_FormatInput);
             // 
             // textBox_mouse_y
             // 
@@ -89,6 +112,8 @@
             this.textBox_mouse_y.Size = new System.Drawing.Size(100, 20);
             this.textBox_mouse_y.TabIndex = 4;
             this.textBox_mouse_y.Text = "0.000000";
+            this.textBox_mouse_y.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Input_Keydown);
+            this.textBox_mouse_y.Leave += new System.EventHandler(this.TextBox_FormatInput);
             // 
             // textBox_mouse_x
             // 
@@ -97,6 +122,8 @@
             this.textBox_mouse_x.Size = new System.Drawing.Size(100, 20);
             this.textBox_mouse_x.TabIndex = 3;
             this.textBox_mouse_x.Text = "0.000000";
+            this.textBox_mouse_x.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Input_Keydown);
+            this.textBox_mouse_x.Leave += new System.EventHandler(this.TextBox_FormatInput);
             // 
             // label4
             // 
@@ -130,9 +157,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(325, 65);
+            this.label1.Size = new System.Drawing.Size(325, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = resources.GetString("label1.Text");
+            this.label1.Text = "Locate your player profile in (game folder)/player/(profile)/(profile).plr";
             // 
             // openFileDialog1
             // 
@@ -140,7 +167,7 @@
             // 
             // textBox_profile
             // 
-            this.textBox_profile.Location = new System.Drawing.Point(97, 93);
+            this.textBox_profile.Location = new System.Drawing.Point(97, 36);
             this.textBox_profile.Name = "textBox_profile";
             this.textBox_profile.ReadOnly = true;
             this.textBox_profile.Size = new System.Drawing.Size(241, 20);
@@ -148,7 +175,7 @@
             // 
             // button_browse
             // 
-            this.button_browse.Location = new System.Drawing.Point(16, 91);
+            this.button_browse.Location = new System.Drawing.Point(16, 34);
             this.button_browse.Name = "button_browse";
             this.button_browse.Size = new System.Drawing.Size(75, 23);
             this.button_browse.TabIndex = 3;
@@ -156,32 +183,11 @@
             this.button_browse.UseVisualStyleBackColor = true;
             this.button_browse.Click += new System.EventHandler(this.Button_Browse_Click);
             // 
-            // button_save
-            // 
-            this.button_save.Location = new System.Drawing.Point(16, 256);
-            this.button_save.Name = "button_save";
-            this.button_save.Size = new System.Drawing.Size(75, 23);
-            this.button_save.TabIndex = 4;
-            this.button_save.Text = "Save";
-            this.button_save.UseVisualStyleBackColor = true;
-            this.button_save.Click += new System.EventHandler(this.Button_Save_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(107, 261);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(285, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "If an input is grayed out, it\'s because it\'s not bound in-game";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 289);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.button_save);
+            this.ClientSize = new System.Drawing.Size(413, 226);
             this.Controls.Add(this.button_browse);
             this.Controls.Add(this.textBox_profile);
             this.Controls.Add(this.label1);

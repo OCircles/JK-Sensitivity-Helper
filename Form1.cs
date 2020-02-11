@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace JK_Control_Helper
+namespace JK_Sensitivity_Helper
 {
 
     public partial class MainForm : Form
@@ -15,7 +15,11 @@ namespace JK_Control_Helper
         {
             InitializeComponent();
 
-            openFileDialog1.InitialDirectory = Application.StartupPath;
+            string StartupPath = Application.StartupPath;
+
+            if (Properties.Settings.Default.LastPath != "") StartupPath = Properties.Settings.Default.LastPath;
+
+            openFileDialog1.InitialDirectory = StartupPath;
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = "Profile files (*.plr)|*.plr";
         }
@@ -32,6 +36,10 @@ namespace JK_Control_Helper
 
             if ( diag == DialogResult.OK )
             {
+
+                Properties.Settings.Default.LastPath = Path.GetDirectoryName(openFileDialog1.FileName);
+                Properties.Settings.Default.Save();
+
                 textBox_profile.Text = openFileDialog1.FileName;
                 textBox_profile.SelectionStart = textBox_profile.Text.Length;
                 textBox_profile.SelectionLength = 0;
@@ -44,25 +52,11 @@ namespace JK_Control_Helper
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
-            if (
-                ValidateInput(textBox_mouse_x) ||
-                ValidateInput(textBox_mouse_y) ||
-                ValidateInput(textBox_scroll)
-            )
-            {
-                MessageBox.Show("One of your inputs were formatted incorrectly. Make sure its in the format of \"0.123456\". If not that, it went below 0 or over 4", "Formatting error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                if (_mouse.mouse_x != null) _mouse.mouse_x[4] = textBox_mouse_x.Text;
+                if (_mouse.mouse_y != null) _mouse.mouse_y[4] = textBox_mouse_y.Text;
+                if (_mouse.mouse_scroll != null) _mouse.mouse_scroll[4] = textBox_scroll.Text;
 
-            textBox_mouse_x.Text = Decimal.Parse(textBox_mouse_x.Text).ToString("0.000000");
-            textBox_mouse_y.Text = Decimal.Parse(textBox_mouse_y.Text).ToString("0.000000");
-            textBox_scroll.Text = Decimal.Parse(textBox_scroll.Text).ToString("0.000000");
-
-            if (_mouse.mouse_x != null) _mouse.mouse_x[4] = textBox_mouse_x.Text;
-            if (_mouse.mouse_y != null) _mouse.mouse_y[4] = textBox_mouse_y.Text;
-            if (_mouse.mouse_scroll != null) _mouse.mouse_scroll[4] = textBox_scroll.Text;
-
-
-            WriteProfile(textBox_profile.Text);
+                WriteProfile(textBox_profile.Text);
         }
 
 
@@ -96,6 +90,17 @@ namespace JK_Control_Helper
             SetTextboxIfBound(textBox_mouse_x, _mouse.mouse_x);
             SetTextboxIfBound(textBox_mouse_y, _mouse.mouse_y);
             SetTextboxIfBound(textBox_scroll, _mouse.mouse_scroll);
+
+            if (textBox_mouse_x.Enabled == false &&
+                textBox_mouse_y.Enabled == false &&
+                textBox_scroll.Enabled == false
+            ) groupBox1.Enabled = true;
+            else
+            {
+                MessageBox.Show("No relevant mouse binds found. Are you sure this is a real player profile?", "No binds found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
 
         }
 
@@ -134,26 +139,8 @@ namespace JK_Control_Helper
             if (value != null) box.Text = value[4];
             else box.Enabled = false;
         }
-
-        public bool ValidateInput(TextBox box)
-        {
-            if (box.Text[1] != '.') return true;
-
-            decimal dec;
-
-            Decimal.TryParse(box.Text, out dec);
-
-            if (
-                dec == null ||
-                dec < 0 ||
-                dec > 4
-            ) return true;
-
-            return false;
-
-        }
-
       
+
 
         // Not sure why I wanted a class for this but whatever
 
@@ -196,7 +183,38 @@ namespace JK_Control_Helper
         }
 
 
+        private void TextBox_FormatInput(object sender, EventArgs e)
+        {
+            TextBox box = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(box.Text)) box.Text = "0";
+            box.Text = box.Text.Replace(',', '.');
 
+            decimal dec = -1;
 
+            try
+            {
+                dec = decimal.Parse(box.Text, System.Globalization.CultureInfo.InvariantCulture);
+
+                if (dec > 4) dec = 4;
+                if (dec < 0) dec = 0;
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            box.Text = dec.ToString("0.000000");
+
+        }
+
+        private void TextBox_Input_Keydown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                TextBox_FormatInput(sender, e);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
     }
 }
