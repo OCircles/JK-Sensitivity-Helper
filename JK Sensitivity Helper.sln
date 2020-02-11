@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JK Sensitivity Helper", "JK Sensitivity Helper.csproj", "{F5AC3D72-E2ED-41C1-B1E2-992FB6EFEA9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5AC3D72-E2ED-41C1-B1E2-992FB6EFEA9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AC3D72-E2ED-41C1-B1E2-992FB6EFEA9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AC3D72-E2ED-41C1-B1E2-992FB6EFEA9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AC3D72-E2ED-41C1-B1E2-992FB6EFEA9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35002A20-0C4F-4EF3-B81E-A2504F08DFDC}
+	EndGlobalSection
+EndGlobal
